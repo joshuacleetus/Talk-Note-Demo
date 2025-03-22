@@ -129,7 +129,7 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
     
     // MARK: - Private methods
     private func setupBindings() {
-        // Setup Rx bindings for state changes
+        // Your existing bindings
         transcribedWords
             .map { words in
                 words.map { $0.text }.joined(separator: " ")
@@ -139,6 +139,38 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
                 self?.transcriptionText = text
             })
             .disposed(by: disposeBag)
+        
+        // New reactive bindings for word highlighting
+        // This would replace your current timer-based approach
+        playbackAudioUseCase.currentTimeObservable
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] currentTime in
+                guard let self = self else { return }
+                self.updateHighlightedWord(at: currentTime)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    // Helper method to update the highlighted word
+    private func updateHighlightedWord(at currentTime: TimeInterval) {
+        let words = transcribedWords.value
+        
+        // Reset highlight if no playback
+        if !playbackAudioUseCase.isPlaying() {
+            highlightedWordIndex = nil
+            return
+        }
+        
+        // Find word that corresponds to current playback time
+        for (index, word) in words.enumerated() {
+            if currentTime >= word.startTime && currentTime <= word.endTime {
+                highlightedWordIndex = index
+                return
+            }
+        }
+        
+        // No word found for current time
+        highlightedWordIndex = nil
     }
     
     private func startRecording() {

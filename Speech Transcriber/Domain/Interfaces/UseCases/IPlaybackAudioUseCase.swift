@@ -12,7 +12,10 @@ import AVFoundation
 protocol IPlaybackAudioUseCase {
     func execute() -> Observable<Bool>
     func stop()
-    func getCurrentTime() -> TimeInterval
-    func isPlaying() -> Bool
     func setDelegate(_ delegate: AVAudioPlayerDelegate)
+    func isPlaying() -> Bool
+    func getCurrentTime() -> TimeInterval
+    
+    // Add this property to the protocol
+    var currentTimeObservable: Observable<TimeInterval> { get }
 }
