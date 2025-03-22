@@ -175,7 +175,9 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
             })
             .flatMap { [weak self] audioData -> Observable<[TranscribedWord]> in
                 guard let self = self else { return Observable.empty() }
+                // This is where you add the timeout
                 return self.transcribeAudioUseCase.execute(audioData: audioData, sampleRate: 22050)
+                    .timeout(.seconds(30), message: "Transcription timed out. Please try again.", scheduler: MainScheduler.instance)
             }
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] words in
@@ -190,6 +192,14 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
     }
     
     private func startPlayback() {
+        // Reset any error state before starting
+        if case .error = recordingState {
+            recordingState = .idle
+        }
+        
+        // Set to loading state before trying playback
+        recordingState = .loading
+        
         // First, check if we can play audio at all
         do {
             // Try deactivating first, this can solve many issues
@@ -231,29 +241,28 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
                         // Consider showing a UI alert to the user here
                     }
                 } else {
-                    print("❌ Playback returned false")
-                    self.recordingState = .error("Playback failed to start")
-                    
-                    // Try alternative playback as fallback
+                    print("⚠️ Primary playback returned false, trying alternative...")
+                    // Don't show error yet, try alternative first
                     self.tryAlternativePlayback()
                 }
             }, onError: { [weak self] error in
                 guard let self = self else { return }
-                print("❌ Playback error: \(error)")
-                self.recordingState = .error("Playback failed: \(error.localizedDescription)")
+                print("⚠️ Primary playback error: \(error)")
                 
-                // Try alternative playback as fallback
+                // Don't show error yet, try alternative first
                 self.tryAlternativePlayback()
             })
             .disposed(by: disposeBag)
     }
-    
+
     // Fallback method for problematic devices
     private func tryAlternativePlayback() {
         print("🔄 Attempting alternative playback method")
         
         guard let url = DependencyContainer.shared.audioRepository.getCurrentRecordingURL() else {
             print("❌ No recording URL available for alternative playback")
+            // Now we can show the error since we've exhausted our options
+            self.recordingState = .error("Playback failed: No recording available")
             return
         }
         
@@ -285,13 +294,13 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
                         self.startWordHighlightTimer()
                     } else {
                         print("❌ Alternative playback failed to start")
-                        self.recordingState = .error("Alternative playback failed")
+                        self.recordingState = .error("Playback failed: Could not play audio")
                     }
                 }
             } catch {
                 DispatchQueue.main.async {
                     print("❌ Alternative playback error: \(error)")
-                    self.recordingState = .error("All playback methods failed")
+                    self.recordingState = .error("Playback failed: \(error.localizedDescription)")
                 }
             }
         }
