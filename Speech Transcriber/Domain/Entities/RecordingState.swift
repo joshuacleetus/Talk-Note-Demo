@@ -9,14 +9,17 @@ import Foundation
 
 enum RecordingState: Equatable {
     case idle
+    case loading
     case recording
     case playing
-    case loading
     case error(String)
+    case processingTranscription
     
-    static func ==(lhs: RecordingState, rhs: RecordingState) -> Bool {
+    // Add this for Equatable conformance with associated values
+    static func == (lhs: RecordingState, rhs: RecordingState) -> Bool {
         switch (lhs, rhs) {
-        case (.idle, .idle), (.recording, .recording), (.playing, .playing), (.loading, .loading):
+        case (.idle, .idle), (.loading, .loading), (.recording, .recording), (.playing, .playing),
+             (.processingTranscription, .processingTranscription):
             return true
         case (.error(let lhsError), .error(let rhsError)):
             return lhsError == rhsError
