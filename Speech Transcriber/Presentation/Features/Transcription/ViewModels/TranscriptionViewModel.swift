@@ -375,4 +375,11 @@ extension TranscriptionViewModel {
         
         print("🔊 Test sound triggered")
     }
+    
+    // Add to your TranscriptionViewModel
+    func dismissError() {
+        if case .error = recordingState {
+            recordingState = .idle
+        }
+    }
 }

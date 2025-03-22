@@ -8,12 +8,27 @@
 import SwiftUI
 
 struct RecordingButton: View {
-    let isRecording: Bool
-    let isEnabled: Bool
-    let action: () -> Void
+    let recordingState: RecordingState
+    let onTap: () -> Void
+    
+    private var isRecording: Bool {
+        if case .recording = recordingState {
+            return true
+        }
+        return false
+    }
+    
+    private var isEnabled: Bool {
+        switch recordingState {
+        case .idle, .recording:
+            return true
+        case .loading, .playing, .error, .processingTranscription:
+            return false
+        }
+    }
     
     var body: some View {
-        Button(action: action) {
+        Button(action: onTap) {
             HStack {
                 Image(systemName: isRecording ? "stop.fill" : "mic.fill")
                 Text(isRecording ? "Stop" : "Record")
