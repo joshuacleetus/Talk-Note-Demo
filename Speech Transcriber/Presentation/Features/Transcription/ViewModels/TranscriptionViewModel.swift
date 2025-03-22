@@ -30,7 +30,7 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
     private let transcribeAudioUseCase: ITranscribeAudioUseCase
     private let playbackAudioUseCase: IPlaybackAudioUseCase
     private var alternativePlayer: AVAudioPlayer?
-
+    
     init(
         recordAudioUseCase: IRecordAudioUseCase,
         transcribeAudioUseCase: ITranscribeAudioUseCase,
@@ -169,6 +169,10 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
                 let audioRepository = DependencyContainer.shared.audioRepository
                 return audioRepository.getRecordingData()
             }
+            .do(onNext: { [weak self] _ in
+                // Update state to show transcription is processing
+                self?.recordingState = .processingTranscription
+            })
             .flatMap { [weak self] audioData -> Observable<[TranscribedWord]> in
                 guard let self = self else { return Observable.empty() }
                 return self.transcribeAudioUseCase.execute(audioData: audioData, sampleRate: 22050)
@@ -243,7 +247,7 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
             })
             .disposed(by: disposeBag)
     }
-
+    
     // Fallback method for problematic devices
     private func tryAlternativePlayback() {
         print("🔄 Attempting alternative playback method")
@@ -292,7 +296,7 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
             }
         }
     }
-
+    
     private func stopPlayback() {
         playbackAudioUseCase.stop()
         stopWordHighlightTimer()
