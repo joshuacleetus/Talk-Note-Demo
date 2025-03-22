@@ -8,10 +8,12 @@
 import SwiftUI
 
 @main
-struct Speech_TranscriberApp: App {
+struct SpeechTranscriberApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                TranscriptionView(viewModel: DependencyContainer.shared.makeTranscriptionViewModel())
+            }
         }
     }
 }

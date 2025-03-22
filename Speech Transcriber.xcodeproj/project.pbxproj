@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		793DD7512D8DDF54004B46A5 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 793DD7502D8DDF54004B46A5 /* RxCocoa */; };
+		793DD7532D8DDF54004B46A5 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 793DD7522D8DDF54004B46A5 /* RxSwift */; };
+		793DD82D2D8E5287004B46A5 /* test_audio.wav in Resources */ = {isa = PBXBuildFile; fileRef = 793DD82C2D8E5287004B46A5 /* test_audio.wav */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		793DD6D52D8DC251004B46A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +33,7 @@
 		793DD6C42D8DC24F004B46A5 /* Speech Transcriber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Speech Transcriber.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		793DD6D42D8DC251004B46A5 /* Speech TranscriberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Speech TranscriberTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		793DD6DE2D8DC251004B46A5 /* Speech TranscriberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Speech TranscriberUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		793DD82C2D8E5287004B46A5 /* test_audio.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test_audio.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				793DD7532D8DDF54004B46A5 /* RxSwift in Frameworks */,
+				793DD7512D8DDF54004B46A5 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +84,7 @@
 		793DD6BB2D8DC24F004B46A5 = {
 			isa = PBXGroup;
 			children = (
+				793DD82C2D8E5287004B46A5 /* test_audio.wav */,
 				793DD6C62D8DC24F004B46A5 /* Speech Transcriber */,
 				793DD6D72D8DC251004B46A5 /* Speech TranscriberTests */,
 				793DD6E12D8DC251004B46A5 /* Speech TranscriberUITests */,
@@ -112,6 +122,8 @@
 			);
 			name = "Speech Transcriber";
 			packageProductDependencies = (
+				793DD7502D8DDF54004B46A5 /* RxCocoa */,
+				793DD7522D8DDF54004B46A5 /* RxSwift */,
 			);
 			productName = "Speech Transcriber";
 			productReference = 793DD6C42D8DC24F004B46A5 /* Speech Transcriber.app */;
@@ -195,6 +207,9 @@
 			);
 			mainGroup = 793DD6BB2D8DC24F004B46A5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				793DD74F2D8DDF54004B46A5 /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 793DD6C52D8DC24F004B46A5 /* Products */;
 			projectDirPath = "";
@@ -212,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				793DD82D2D8E5287004B46A5 /* test_audio.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,11 +415,14 @@
 				DEVELOPMENT_TEAM = USQQZ62WW7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Speech-Transcriber-Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to transcribe your speech.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -428,11 +447,14 @@
 				DEVELOPMENT_TEAM = USQQZ62WW7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Speech-Transcriber-Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to transcribe your speech.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,6 +580,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		793DD74F2D8DDF54004B46A5 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		793DD7502D8DDF54004B46A5 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 793DD74F2D8DDF54004B46A5 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		793DD7522D8DDF54004B46A5 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 793DD74F2D8DDF54004B46A5 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 793DD6BC2D8DC24F004B46A5 /* Project object */;
 }
