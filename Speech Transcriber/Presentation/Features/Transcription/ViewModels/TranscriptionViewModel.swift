@@ -218,7 +218,13 @@ class TranscriptionViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate 
                 self.recordingState = .idle
             }, onError: { [weak self] error in
                 guard let self = self else { return }
-                self.recordingState = .error("Transcription failed: \(error.localizedDescription)")
+                if let appError = error as? AppError {
+                    // Use the user-friendly message
+                    self.recordingState = .error(appError.userMessage)
+                } else {
+                    // Fall back to generic error handling
+                    self.recordingState = .error("An error occurred: \(error.localizedDescription)")
+                }
             })
             .disposed(by: disposeBag)
     }
